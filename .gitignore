@@ -1,0 +1,12 @@
+# Ignore patterns
+*.zip
+.DS_Store
+.clawhub/
+
+# Sensitive files - DO NOT COMMIT
+**/credentials.json
+**/credentials*.json
+**/.todoist-token
+**/.agent-identity.json
+**/heartbeat-state.json
+**/_meta.json
