@@ -1,12 +1,12 @@
 # re-metastrategy-cognitive
 
-A reverse engineering meta-cognitive skill focused on **attention management**, **task-mode routing**, **object typing**, **hypothesis branching**, **mental model rotation**, and **convergence control**.
+A reverse engineering meta-cognitive skill focused on **attention management**, **noise suppression**, **task-mode routing**, **object typing**, **hypothesis branching**, **mental model rotation**, and **convergence control**.
 
 It is intentionally **tool-agnostic**. It does not tell the agent which RE tool to use. It tells the agent **how to think** when doing reverse engineering.
 
 ## What changed in this version
 
-This revised version upgrades the skill from a strict abstraction-and-trigger protocol into a fuller **reverse-engineering cognitive controller**.
+This revised version upgrades the skill from a strict abstraction-and-trigger protocol into a fuller **reverse-engineering cognitive controller** with explicit denoising and forward attention.
 
 ### Key improvements
 
@@ -38,6 +38,13 @@ This revised version upgrades the skill from a strict abstraction-and-trigger pr
   - high / medium / low
   - plus a **parking lot** mechanism for low-value or currently irrelevant complexity
 
+- Added **Noise Suppression Protocol**
+  - compress
+  - classify
+  - ignore for now
+  - downsample
+  - defer
+
 - Added **Hypothesis Pool Protocol**
   - multiple candidate explanations
   - discriminators
@@ -51,7 +58,12 @@ This revised version upgrades the skill from a strict abstraction-and-trigger pr
   - boundary crossing
   - temporal delta
   - deception surface
-  - and more
+  - noise filtering
+  - forward projection
+
+- Added explicit **Outlook / Forward Attention**
+  - predict the next most valuable observable
+  - avoid getting trapped in the current hot spot
 
 - Added explicit **Deception Check**
   - to resist control-flow theater, naming traps, and pseudo-complexity
@@ -63,9 +75,11 @@ This revised version upgrades the skill from a strict abstraction-and-trigger pr
 Many RE agents are good at reading code but weak at:
 
 - knowing where attention should go
+- separating signal from noise
 - managing ambiguity without collapsing too early
 - switching between cognitive models, not just viewpoints
 - separating mechanism understanding from business understanding
+- looking ahead to the next high-value observation
 - avoiding attractive but low-value complexity
 
 This version is designed to improve those failure modes directly.
@@ -86,6 +100,7 @@ Use this skill when the agent needs meta-level control during:
 - protocol or format recovery
 - exploit surface reasoning
 - mechanism vs business intent separation
+- noisy, heavily wrapped, or intentionally misleading targets
 
 ## Notes
 

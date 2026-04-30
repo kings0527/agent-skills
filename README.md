@@ -1,30 +1,55 @@
 # Agent Skills
 
-一套用于 AI Agent 的技能集合，包含**通用决策框架**、**工程分析框架**，以及**逆向工程元认知框架**，帮助 Agent 在复杂任务中更系统化地分配注意力、切换思维模型并收敛结论。
+一套面向 AI Agent 的**高阶认知技能仓库**。这些技能不是简单的工具说明，而是把复杂任务里的**注意力分配、抽象切换、约束分析、噪声抑制、前瞻判断与收敛控制**沉淀成可复用的思维框架。
+
+适合用于：
+- 复杂决策
+- 工程分析
+- 架构评估
+- 逆向工程
+- 高噪声、高不确定性的复杂问题求解
+
+## 设计理念
+
+这些 skills 关注的不是“怎么调用工具”，而是：
+
+- **怎么看问题**
+- **先看哪里**
+- **哪些该忽略**
+- **何时切换模型**
+- **何时停止继续深挖**
+- **如何从复杂表象压缩出高价值信号**
+
+换句话说，这个仓库更偏向 **meta-skills / cognitive skills**，帮助 Agent 在复杂上下文中保持清晰，而不是被信息淹没。
 
 ## 技能列表
 
-| 技能 | 说明 | 适用场景 |
-|------|------|---------|
-| [FOUDF](./FOUDF/) | 五算子通用决策框架 | 跨领域复杂决策（商业/政策/人际关系/技术选型等） |
-| [DevTrace](./DevTrace/) | 技术决策五算子 | 工程落地（架构决策/技术选型/代码审查/重构评估） |
-| [re-metastrategy-cognitive](./re-metastrategy-cognitive/) | 逆向工程元认知控制器 | 逆向分析、恶意代码分析、混淆/反调试、协议恢复、漏洞面推理 |
+| 技能 | 定位 | 核心关注 | 适用场景 |
+|------|------|----------|---------|
+| [FOUDF](./FOUDF/) | 通用元认知决策框架 | System / Layer / Probability / Constraint / Game | 跨领域复杂决策、策略分析、关系判断、政策/商业/人生问题 |
+| [DevTrace](./DevTrace/) | 工程分析与技术决策框架 | Topology / Abstraction / Entropy / Constraint / Dependency | 架构评估、重构决策、技术选型、复杂工程问题定位 |
+| [re-metastrategy-cognitive](./re-metastrategy-cognitive/) | 逆向工程元认知控制器 | Attention Budget / Noise Suppression / Task Mode / Object Typing / Hypothesis Pool / Mental Models / Outlook | 逆向分析、恶意代码分析、混淆/反调试、协议恢复、漏洞面推理 |
 
 ## 安装方式
 
 ### OpenClaw
 
-将技能复制到你的 skills 目录：
+将技能复制到你的 `skills` 目录：
 
 ```bash
 # 安装全部
 git clone https://github.com/kings0527/agent-skills.git
 cp -r agent-skills/* ~/.openclaw/workspace/skills/
+```
 
-# 或单独安装
+或按需单独安装：
+
+```bash
+mkdir -p ~/.openclaw/workspace/skills/FOUDF
 curl -o ~/.openclaw/workspace/skills/FOUDF/SKILL.md \
   https://raw.githubusercontent.com/kings0527/agent-skills/main/FOUDF/SKILL.md
 
+mkdir -p ~/.openclaw/workspace/skills/DevTrace
 curl -o ~/.openclaw/workspace/skills/DevTrace/SKILL.md \
   https://raw.githubusercontent.com/kings0527/agent-skills/main/DevTrace/SKILL.md
 
@@ -35,26 +60,22 @@ curl -o ~/.openclaw/workspace/skills/re-metastrategy-cognitive/SKILL.md \
 
 ### Claude Code / 其他 CLI Agent
 
-将 SKILL.md 放入你的项目或全局提示词目录：
+将 `SKILL.md` 放入你的项目目录、全局规则目录，或在代理配置中引用：
 
 ```bash
-# 下载到项目目录
 curl -O https://raw.githubusercontent.com/kings0527/agent-skills/main/FOUDF/SKILL.md
 curl -O https://raw.githubusercontent.com/kings0527/agent-skills/main/DevTrace/SKILL.md
 curl -O https://raw.githubusercontent.com/kings0527/agent-skills/main/re-metastrategy-cognitive/SKILL.md
-
-# 或在 CLAUDE.md 中引用
-# 参考这些思维框架进行复杂决策分析...
 ```
 
 ### Cursor / Windsurf / 其他 IDE Agent
 
-在项目规则文件中引入：
+在项目规则文件中引用：
 
 ```markdown
-# 决策框架参考
+# Cognitive Skill References
 - 通用决策: https://raw.githubusercontent.com/kings0527/agent-skills/main/FOUDF/SKILL.md
-- 技术决策: https://raw.githubusercontent.com/kings0527/agent-skills/main/DevTrace/SKILL.md
+- 工程分析: https://raw.githubusercontent.com/kings0527/agent-skills/main/DevTrace/SKILL.md
 - 逆向元认知: https://raw.githubusercontent.com/kings0527/agent-skills/main/re-metastrategy-cognitive/SKILL.md
 ```
 
@@ -62,11 +83,12 @@ curl -O https://raw.githubusercontent.com/kings0527/agent-skills/main/re-metastr
 
 | 维度 | FOUDF | DevTrace | RE-MetaStrategy |
 |------|-------|----------|-----------------|
-| **定位** | 元认知工具 | 工程落地工具 | 逆向元认知控制器 |
-| **适用域** | 任何复杂系统 | 技术系统 | 二进制/恶意代码/保护机制 |
-| **核心关注** | System / Layer / Probability / Constraint / Game | Topology / Abstraction / Entropy / Constraint / Dependency | Attention Budget / Task Mode / Object Typing / Hypothesis Pool / Mental Models |
-| **输出风格** | 概率建模、博弈推演 | 拓扑图、熵增评估、依赖清单 | 机制语义、业务语义、区分证据、收敛控制 |
-| **典型场景** | 选专业、评架构、分析关系、制定政策 | 微服务拆分、技术选型、重构评估、代码审查 | 逆向分析、VM/壳、反调试、协议恢复、绕过面定位 |
+| **定位** | 通用元认知决策框架 | 工程分析框架 | 逆向元认知控制器 |
+| **适用域** | 任何复杂系统 | 技术/架构系统 | 二进制/恶意代码/保护机制 |
+| **主要问题** | 怎么判断复杂局势 | 怎么理解工程系统 | 怎么在高噪声目标中分配注意力 |
+| **核心关注** | 系统、分层、概率、约束、博弈 | 拓扑、抽象、熵增、约束、依赖 | 注意力预算、噪声抑制、对象分型、假设池、前瞻观察 |
+| **典型输出** | 判断框架、概率推演、约束分析 | 架构图景、风险面、依赖分析 | 机制语义、业务语义、去噪结果、关键观测点 |
+| **典型场景** | 选专业、评架构、分析关系、制定政策 | 微服务拆分、重构评估、技术选型、代码审查 | 逆向分析、VM/壳、反调试、协议恢复、绕过面定位 |
 
 ## 使用示例
 
@@ -107,13 +129,26 @@ Agent（启用 re-metastrategy-cognitive）：
 - Task Mode: localize
 - Object Type: parser_or_validator / anti_debug_gate / business_logic 候选分型
 - Attention Budget: 将入口、失败分支、副作用路径设为 high
+- Noise Suppression: 把 telemetry wrapper、日志层、运行时模板先压缩并暂时忽略
 - Hypothesis Pool:
   1. license_check
   2. environment_gate
   3. telemetry_precheck
-- Mental Model: trust_chain + temporal_delta
+- Mental Model: trust_chain + temporal_delta + forward_projection
 - 收敛目标：定位关键校验路径，并区分它与环境探针/埋点逻辑
 ```
+
+## 适合什么样的 Agent
+
+如果你的 Agent 经常出现以下问题，这个仓库会很有帮助：
+
+- 读了很多信息，但抓不到重点
+- 会分析，但不会过滤噪声
+- 结论很多，却没有收敛
+- 很会解释局部，却看不清系统层面
+- 会被复杂表象吸住，失去前瞻视角
+
+这些 skills 的价值不在于替你做工具调用，而在于帮 Agent 在复杂问题里形成更稳定的**认知秩序**。
 
 ## 贡献
 

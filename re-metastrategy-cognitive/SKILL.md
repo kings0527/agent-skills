@@ -1,6 +1,6 @@
 ---
 name: re-metastrategy-cognitive
-description: Reverse engineering meta-cognitive activation engine. Manages attention allocation, task-mode routing, object typing, hypothesis branching, mental model switching, and analysis boundary judgment at a meta level. Use when performing reverse engineering, binary analysis, malware analysis, obfuscation deobfuscation, anti-debugging bypass, VM/packer unpacking, protocol/format recovery, exploit surface reasoning, or whenever the agent needs to decide how to think about a reverse engineering target rather than which tool to run. Not a tool-usage skill, purely for attention anchoring, abstraction tracking, cognitive paradigm rotation, and convergence control.
+description: Reverse engineering meta-cognitive activation engine. Manages attention allocation, noise suppression, task-mode routing, object typing, hypothesis branching, mental model switching, and analysis boundary judgment at a meta level. Use when performing reverse engineering, binary analysis, malware analysis, obfuscation deobfuscation, anti-debugging bypass, VM/packer unpacking, protocol/format recovery, exploit surface reasoning, or whenever the agent needs to decide how to think about a reverse engineering target rather than which tool to run. Not a tool-usage skill, purely for attention anchoring, denoising, abstraction tracking, cognitive paradigm rotation, and convergence control.
 ---
 
 # RE-MetaStrategy-Cognitive
@@ -14,6 +14,7 @@ description: Reverse engineering meta-cognitive activation engine. Manages atten
 - 连续使用同一分析范式，注意力长期停滞
 - 过早单押某个解释，失去候选分支管理能力
 - 不区分任务类型，拿同一套收敛标准处理所有逆向问题
+- 无法识别哪些信息是**信号**，哪些只是**噪声**
 
 ## First Principle
 
@@ -23,16 +24,20 @@ description: Reverse engineering meta-cognitive activation engine. Manages atten
 
 逆向 = 从**可观测状态变化**、**数据依赖**、**边界穿越**与**副作用**反推出目标的机制语义与业务语义。
 
+注意力 = 稀缺资源。高质量逆向不是“看到更多”，而是**过滤更多无效信息后，看清真正关键变化**。
+
 ## Role
 
 本 Skill 是逆向分析的**元认知调度器**。它管理：
 
 - 注意力预算（attention budget）
+- 噪声抑制（noise suppression）
 - 任务模式（task mode）
 - 分析对象分型（object typing）
 - 假设池与区分证据（hypothesis pool + discriminators）
 - 心智模型轮换（mental model rotation）
 - 抽象层级跃迁（abstraction ascent）
+- 前瞻观察（outlook / forward attention）
 - 收敛与暂停条件（termination / parking）
 
 **本 Skill 不规定任何具体命令、脚本、工具调用。**
@@ -142,6 +147,16 @@ description: Reverse engineering meta-cognitive activation engine. Manages atten
 | `medium` | 支撑证据、关键 helper、数据结构辅助层 | 定向观察、按需回访 |
 | `low` | 框架噪音、常见库、重复模板、表演型混淆 | 只标签化，不深挖 |
 
+### Budget Rule
+
+高注意力必须满足至少一项：
+- 能改变主假设排序
+- 能提升抽象层级
+- 能显著减少不确定性
+- 能暴露关键副作用 / I/O / 状态转移
+
+否则默认降为 `medium` 或 `low`。
+
 ### Parking Lot Rule
 
 遇到以下对象时，优先停放到 `parking_lot`，而不是无上限消耗注意力：
@@ -150,6 +165,7 @@ description: Reverse engineering meta-cognitive activation engine. Manages atten
 - 无法支持当前主假设
 - 明显重复模板
 - 对当前任务模式无直接贡献
+- 当前只是“看起来很重要”，但还没有信号支持
 
 每个被停放对象都必须记录：
 - 暂缓原因
@@ -158,7 +174,57 @@ description: Reverse engineering meta-cognitive activation engine. Manages atten
 
 ---
 
-## 5. Hypothesis Pool Protocol
+## 5. Noise Suppression Protocol
+
+如果这个 Skill 叫“注意力控制”，那就必须明确处理**噪声**。
+
+### What Counts as Noise
+
+以下默认视为候选噪声，而不是默认高价值信号：
+
+- 仅增加阅读负担、不改变状态的复杂控制流
+- 大量 wrapper / thunk / glue / 日志 / 埋点样板
+- 编译器模板、运行时脚手架、异常处理壳层
+- 重复型 helper、一次性初始化噪音
+- 名字很唬人但副作用极弱的函数
+- 对当前任务模式没有区分价值的信息
+
+### Denoising Actions
+
+对疑似噪声对象，优先做以下动作，而不是深挖：
+
+1. **压缩**：把 50 行表面复杂逻辑压成 1 句机制标签
+2. **归类**：标成 wrapper / bridge / telemetry / runtime_support / noise_candidate
+3. **忽略**：若对主假设和 I/O 无贡献，暂时不跟踪
+4. **降采样**：只看入口、出口、副作用，不看全部细节
+5. **延后**：进入 `parking_lot`，等主路径收敛后再决定是否回访
+
+### Ignore Rule
+
+满足以下任意条件时，可明确标记 `ignored_for_now=true`：
+- 对当前任务模式无直接贡献
+- 不改变任何关键状态、关键数据、关键副作用
+- 仅增加叙事复杂度，不增加解释力
+- 已被更高价值路径覆盖
+
+**忽略不是丢弃。忽略是为了保护有限注意力。**
+
+### Signal Preference
+
+高价值信号优先级高于代码表面复杂度。优先关注：
+
+- 状态变化
+- I/O 边界
+- 输入约束
+- 输出分类
+- 副作用
+- 跨边界调用
+- 时间前后差分
+- 能区分多个假设的证据
+
+---
+
+## 6. Hypothesis Pool Protocol
 
 禁止只维护单个假设。至少维护 2 到 4 个候选解释，除非证据已高度压缩不确定性。
 
@@ -181,7 +247,7 @@ description: Reverse engineering meta-cognitive activation engine. Manages atten
 
 ---
 
-## 6. Mental Model Library
+## 7. Mental Model Library
 
 停滞时，不只切分析轴，还要切换**心智模型类型**。
 
@@ -223,13 +289,43 @@ description: Reverse engineering meta-cognitive activation engine. Manages atten
 12. **observe_decide_act**
    - 该逻辑是否遵循“观测环境 → 做判断 → 触发动作”的闭环？
 
+13. **noise_filtering**
+   - 哪些信息只是占据视野，但不改变结论？
+
+14. **forward_projection**
+   - 如果当前假设成立，后面应该出现什么结构、状态、调用或副作用？
+
 ### Switching Rule
 
 如果连续 3 步都在同一个模型里打转，必须更换模型类，而不仅仅是换静态/动态或局部/全局。
 
 ---
 
-## 7. Deception Check
+## 8. Outlook / Forward Attention Protocol
+
+注意力不仅要看“当前这里”，还要看“接下来最值得看哪里”。
+
+### Forward Questions
+
+在每一轮分析后，至少问一次：
+
+- 如果当前假设正确，下一个应出现的高价值观测是什么？
+- 哪个下游消费者最可能暴露真实语义？
+- 哪个上游输入最可能暴露真实约束？
+- 哪个尚未查看的边界点，最可能改变假设排序？
+
+### Outlook Rule
+
+不要只被当前热区困住。要主动把注意力投向：
+- 能区分候选假设的未来观测点
+- 能暴露关键副作用的尚未检查区域
+- 能缩短解释链条的下游语义消费者
+
+如果当前区域解释密度不断下降，应增加 `forward_projection` 权重。
+
+---
+
+## 9. Deception Check
 
 逆向中最常见的问题不是信息不足，而是**被错误信息牵着走**。
 
@@ -254,7 +350,7 @@ description: Reverse engineering meta-cognitive activation engine. Manages atten
 
 ---
 
-## 8. Cognitive Activation Protocol
+## 10. Cognitive Activation Protocol
 
 以下触发器是**强制**的，不是建议。
 
@@ -314,32 +410,51 @@ description: Reverse engineering meta-cognitive activation engine. Manages atten
 - 抽象层级跃迁率 = 0
 - 信息增益导数 `ΔH / Δstep < ε`
 - 注意力消耗显著高于语义增量
+- 噪声密度显著高于信号密度
 
 动作：
 - 降低当前对象 attention budget，或直接放入 parking lot
 - 切换到更高区分度的观测对象
+- 必要时显式执行 `ignore_for_now`
 
 ### 6. DECEPTION_CHECK
 
 见上一节。用于主动清理认知误导。
 
+### 7. NOISE_SUPPRESSION
+
+触发：
+- 高复杂度区域连续多步不改变主假设
+- 观察项数量快速增加，但结论分辨率没有提升
+- 发现大量重复/模板/壳层/桥接层噪音
+
+动作：
+- 压缩语义
+- 标签化噪声
+- 降采样
+- 忽略当前无贡献对象
+- 把注意力切给更高价值边界点
+
 ---
 
-## 9. Execution Loop
+## 11. Execution Loop
 
 ```text
 ROUTE 任务模式
 → TYPE 当前对象
 → BUDGET 分配注意力
+→ DENOISE 先判断哪些应忽略 / 压缩 / 延后
 → PERCEIVE 观测
 → UPDATE 假设池
 → SCORE 置信度与区分度
 → CHECK 抽象层级（Mechanism / Business 双轴）
+→ OUTLOOK 预测下一个高价值观测点
 ├─ 模糊表述或习惯性判断 → ROOT_CAUSE
 ├─ 同轴循环或 conf<0.6 → PERSPECTIVE_SHIFT
 ├─ 已换轴仍停滞 → MODEL_SHIFT
 ├─ 控制流叙事依赖 / 中层停滞 → INVERSION
 ├─ 复杂度疑似表演层 → DECEPTION_CHECK
+├─ 噪声主导视野 → NOISE_SUPPRESSION
 ├─ ΔH 停滞或注意力浪费 → THROTTLE
 ├─ 低价值对象 → PARKING_LOT
 └─ 满足当前任务模式的收敛条件 → TERMINATE
@@ -347,7 +462,7 @@ ROUTE 任务模式
 
 ---
 
-## 10. Termination Policy
+## 12. Termination Policy
 
 不要用一套统一的终止条件处理所有逆向问题。
 
@@ -401,7 +516,7 @@ ROUTE 任务模式
 
 ---
 
-## 11. Output Schema
+## 13. Output Schema
 
 最终输出优先用 JSON。内部思考可先半结构化，再收束。
 
@@ -411,6 +526,8 @@ ROUTE 任务模式
   "target": "分析单元",
   "object_type": "business_logic|dispatcher|vm_handler|decoder_or_decryptor|parser_or_validator|initializer|environment_probe|anti_debug_gate|integrity_checker|resource_loader|bridge_or_glue|library_wrapper|allocator_or_runtime_support|telemetry_or_reporting|unknown",
   "attention_budget": "high|medium|low",
+  "noise_level": "low|medium|high",
+  "ignored_for_now": false,
   "mechanism_abstraction": "M0|M1|M2|M3|M4",
   "business_abstraction": "B0|B1|B2|B3",
   "abstraction_delta": {
@@ -428,9 +545,9 @@ ROUTE 任务模式
   ],
   "active_hypothesis": "当前优先假设",
   "evidence": ["可观测状态 / 数据流 / 副作用 / 时间变化"],
-  "mental_model": "state_machine|transform_pipeline|trust_chain|boundary_crossing|resource_contention|environment_gating|compatibility_cost|provenance_classification|deception_surface|temporal_delta|dispatcher_handler|observe_decide_act",
+  "mental_model": "state_machine|transform_pipeline|trust_chain|boundary_crossing|resource_contention|environment_gating|compatibility_cost|provenance_classification|deception_surface|temporal_delta|dispatcher_handler|observe_decide_act|noise_filtering|forward_projection",
   "perspective_axis": "当前分析轴",
-  "cognitive_trigger": "ROOT_CAUSE|PERSPECTIVE_SHIFT|MODEL_SHIFT|INVERSION|THROTTLE|DECEPTION_CHECK|NONE",
+  "cognitive_trigger": "ROOT_CAUSE|PERSPECTIVE_SHIFT|MODEL_SHIFT|INVERSION|THROTTLE|DECEPTION_CHECK|NOISE_SUPPRESSION|NONE",
   "root_cause_chain": ["现象→约束→不变量"],
   "intent": {
     "mechanism": "机制语义 | null",
@@ -448,6 +565,9 @@ ROUTE 任务模式
       "revisit_when": "什么条件满足后再回来"
     }
   ],
+  "forward_observables": [
+    "如果当前假设成立，接下来最值得验证的观测点"
+  ],
   "termination_check": {
     "converged": false,
     "missing": ["列出未满足条件"]
@@ -458,14 +578,16 @@ ROUTE 任务模式
 
 ---
 
-## 12. Minimal Behavioral Rules
+## 14. Minimal Behavioral Rules
 
 - **元层职责**：只管注意力方向、任务模式、对象分型、假设池、抽象层级；不管工具。
 - **双轴抽象**：机制语义与业务语义分开评估，禁止只用一条 L0-L4 粗暴收敛。
 - **候选并行**：默认维护多个候选假设，除非区分证据已非常强。
 - **注意力预算**：不是每个复杂对象都值得深挖。
+- **噪声抑制**：默认先问“哪些可以忽略”，再问“哪些值得继续看”。
 - **去叙事偏好**：不信任“看起来像”，优先相信数据依赖、状态变化与副作用。
 - **去误导协议**：复杂度本身不是证据，副作用才是证据。
+- **前瞻视角**：每轮都要预测下一个最高价值观测点，而不是被当前热区困住。
 - **信息不足协议**：信息缺失时输出 `{"status":"insufficient_data","required_observables":[...]}`，禁止编造。
 - **收敛按任务模式变化**：不要把所有分析都强迫做成业务命名任务。
 - **最终输出纯净**：如交给下游系统消费，最终结果再收束成 JSON。
