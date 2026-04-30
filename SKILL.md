@@ -1,6 +1,6 @@
 ---
-name: agent-skills-index
-description: Repository-level routing index for the agent-skills collection. Use when deciding which bundled skill to activate across this repo. Route complex general decisions to FOUDF, engineering and architecture analysis to DevTrace, and reverse engineering, malware, obfuscation, anti-debugging, protocol recovery, or high-noise binary analysis to re-metastrategy-cognitive.
+name: qinghuan-lp-agent-skills
+description: Repository-level routing index for the qinghuan-lp-agent-skills collection. Use when deciding which bundled skill to activate across this repo. Route complex general decisions to FOUDF, engineering and architecture analysis to DevTrace, and reverse engineering, malware, obfuscation, anti-debugging, protocol recovery, or high-noise binary analysis to re-metastrategy-cognitive.
 ---
 
 # Agent Skills Index
