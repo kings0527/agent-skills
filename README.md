@@ -29,6 +29,7 @@
 | [FOUDF](./FOUDF/) | 通用元认知决策框架 | System / Layer / Probability / Constraint / Game | 跨领域复杂决策、策略分析、关系判断、政策/商业/人生问题 |
 | [DevTrace](./DevTrace/) | 工程分析与技术决策框架 | Topology / Abstraction / Entropy / Constraint / Dependency | 架构评估、重构决策、技术选型、复杂工程问题定位 |
 | [re-metastrategy-cognitive](./re-metastrategy-cognitive/) | 逆向工程元认知控制器 | Attention Budget / Noise Suppression / Task Mode / Object Typing / Hypothesis Pool / Mental Models / Outlook | 逆向分析、恶意代码分析、混淆/反调试、协议恢复、漏洞面推理 |
+| [cognitive-runtime-skill-system](./cognitive-runtime-skill-system/) | 贝叶斯认知运行时框架 | Belief State / Hypothesis Competition / Evidence Update / Adversarial Verification / Uncertainty Preservation | LLM 认知架构、Multi-Agent 运行时设计、不确定性管理、抗过早收敛 |
 
 ## 安装方式
 
@@ -56,6 +57,10 @@ curl -o ~/.openclaw/workspace/skills/DevTrace/SKILL.md \
 mkdir -p ~/.openclaw/workspace/skills/re-metastrategy-cognitive
 curl -o ~/.openclaw/workspace/skills/re-metastrategy-cognitive/SKILL.md \
   https://raw.githubusercontent.com/kings0527/agent-skills/main/re-metastrategy-cognitive/SKILL.md
+
+mkdir -p ~/.openclaw/workspace/skills/cognitive-runtime-skill-system
+curl -o ~/.openclaw/workspace/skills/cognitive-runtime-skill-system/SKILL.md \
+  https://raw.githubusercontent.com/kings0527/agent-skills/main/cognitive-runtime-skill-system/SKILL.md
 ```
 
 ### Claude Code / 其他 CLI Agent
@@ -66,6 +71,7 @@ curl -o ~/.openclaw/workspace/skills/re-metastrategy-cognitive/SKILL.md \
 curl -O https://raw.githubusercontent.com/kings0527/agent-skills/main/FOUDF/SKILL.md
 curl -O https://raw.githubusercontent.com/kings0527/agent-skills/main/DevTrace/SKILL.md
 curl -O https://raw.githubusercontent.com/kings0527/agent-skills/main/re-metastrategy-cognitive/SKILL.md
+curl -O https://raw.githubusercontent.com/kings0527/agent-skills/main/cognitive-runtime-skill-system/SKILL.md
 ```
 
 ### Cursor / Windsurf / 其他 IDE Agent
@@ -77,6 +83,7 @@ curl -O https://raw.githubusercontent.com/kings0527/agent-skills/main/re-metastr
 - 通用决策: https://raw.githubusercontent.com/kings0527/agent-skills/main/FOUDF/SKILL.md
 - 工程分析: https://raw.githubusercontent.com/kings0527/agent-skills/main/DevTrace/SKILL.md
 - 逆向元认知: https://raw.githubusercontent.com/kings0527/agent-skills/main/re-metastrategy-cognitive/SKILL.md
+- 认知运行时: https://raw.githubusercontent.com/kings0527/agent-skills/main/cognitive-runtime-skill-system/SKILL.md
 ```
 
 ## 框架对比
