@@ -1,6 +1,6 @@
 ---
 name: qinghuan-lp-agent-skills
-description: Repository-level routing index for the qinghuan-lp-agent-skills collection. Use when deciding which bundled skill to activate across this repo. Route complex general decisions to FOUDF, engineering and architecture analysis to DevTrace, and reverse engineering, malware, obfuscation, anti-debugging, protocol recovery, or high-noise binary analysis to re-metastrategy-cognitive.
+description: Repository-level routing index for the qinghuan-lp-agent-skills collection. Use when deciding which bundled skill to activate across this repo. Route complex general decisions to FOUDF, engineering and architecture analysis to DevTrace, reverse engineering, malware, obfuscation, anti-debugging, protocol recovery, or high-noise binary analysis to re-metastrategy-cognitive, and require analyze-authorized-local-targets before using IDA MCP, Frida, Ghidra, LLDB, or similar tools against a local app, binary, or user-owned device.
 ---
 
 # Agent Skills Index
@@ -12,6 +12,7 @@ description: Repository-level routing index for the qinghuan-lp-agent-skills col
 - 遇到**通用复杂决策**、策略判断、关系分析、约束权衡、博弈分析时，调用 **FOUDF**
 - 遇到**工程分析**、架构评估、重构取舍、技术选型、复杂系统依赖分析时，调用 **DevTrace**
 - 遇到**逆向工程**、二进制分析、恶意代码分析、混淆/反调试、协议恢复、漏洞面推理，或目标信息**噪声很高、需要注意力控制与去噪**时，调用 **re-metastrategy-cognitive**
+- 在使用 **IDA MCP、Frida、Ghidra、LLDB** 或类似工具分析本地应用、二进制或用户自有设备前，先调用 **analyze-authorized-local-targets** 建立本地授权范围和网络边界
 
 ## Quick Map
 
@@ -20,6 +21,7 @@ description: Repository-level routing index for the qinghuan-lp-agent-skills col
 | 复杂局势判断、策略选择 | `FOUDF` |
 | 技术系统理解、架构分析 | `DevTrace` |
 | 逆向分析、去噪、前瞻观测 | `re-metastrategy-cognitive` |
+| 本地逆向、动态插桩、调试前的授权范围确认 | `analyze-authorized-local-targets` |
 
 ## Minimal Guidance
 
@@ -28,3 +30,4 @@ description: Repository-level routing index for the qinghuan-lp-agent-skills col
 如果问题横跨多个领域：
 - 先用 `FOUDF` 做全局结构化判断
 - 再进入 `DevTrace` 或 `re-metastrategy-cognitive` 做领域内深挖
+- 若要实际调用本地逆向或动态分析工具，先用 `analyze-authorized-local-targets` 完成范围预检

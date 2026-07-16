@@ -30,6 +30,7 @@
 | [DevTrace](./DevTrace/) | 工程分析与技术决策框架 | Topology / Abstraction / Entropy / Constraint / Dependency | 架构评估、重构决策、技术选型、复杂工程问题定位 |
 | [re-metastrategy-cognitive](./re-metastrategy-cognitive/) | 逆向工程元认知控制器 | Attention Budget / Noise Suppression / Task Mode / Object Typing / Hypothesis Pool / Mental Models / Outlook | 逆向分析、恶意代码分析、混淆/反调试、协议恢复、漏洞面推理 |
 | [cognitive-runtime-skill-system](./cognitive-runtime-skill-system/) | 贝叶斯认知运行时框架 | Belief State / Hypothesis Competition / Evidence Update / Adversarial Verification / Uncertainty Preservation | LLM 认知架构、Multi-Agent 运行时设计、不确定性管理、抗过早收敛 |
+| [analyze-authorized-local-targets](./analyze-authorized-local-targets/) | 本地逆向与调试授权范围守卫 | Authorization / Exact Target / Allowed Actions / Local-only Boundary | IDA MCP、Frida、Ghidra、LLDB、本地二进制与自有设备调试 |
 
 ## 安装方式
 

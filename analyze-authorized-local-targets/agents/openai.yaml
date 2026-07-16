@@ -1,0 +1,12 @@
+interface:
+  display_name: Authorized Local RE
+  short_description: Bounded IDA and Frida analysis on owned local targets
+  default_prompt: Use $analyze-authorized-local-targets to analyze this owned local
+    app with IDA MCP or Frida under a verified local-only scope.
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

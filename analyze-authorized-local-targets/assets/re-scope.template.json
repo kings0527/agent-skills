@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "authorization": {
+    "basis": "owned",
+    "attested_by_user": true,
+    "scope_note": "My own development app and personal test device"
+  },
+  "targets": [
+    {
+      "kind": "binary",
+      "path": "/absolute/path/to/app"
+    },
+    {
+      "kind": "mobile-app",
+      "bundle_id": "com.example.myapp",
+      "device_alias": "personal-test-phone",
+      "device_transport": "usb",
+      "owned_by_user": true
+    }
+  ],
+  "allowed_actions": [
+    "static-analysis",
+    "local-debugging",
+    "runtime-instrumentation"
+  ],
+  "network_access": false,
+  "external_targets": false
+}
